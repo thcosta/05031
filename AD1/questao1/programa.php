@@ -18,8 +18,15 @@ function calculaNumeroVizinhos($matriz, $_qtd_nos){
   return $maior;
 }
 
-function grafo_push($matriz, $vetor) {
-  
+function grafo_push(&$matriz, $vetor) {
+  if (sizeof($vetor) != sizeof($matriz[0])) {
+    throw new Exception('O número de linhas do vetor deve ser igual ao número de nós da matriz!');
+  }
+  foreach($matriz as $index => &$linha){
+    array_push($linha, $vetor[$index]);
+  }
+  array_push($vetor, 0);
+  array_push($matriz, $vetor);
 }
 
 $qtd_nos = readline("Entre com quantidade de nós do grafo: ");
@@ -43,6 +50,25 @@ while($qtd_nos_atual < $qtd_nos) {
   }
 }
 
+print_r($matriz);
+echo "\n";
+
 $maior_vizinhos = calculaNumeroVizinhos($matriz, $qtd_nos);
 echo "O nó com maior número de vizinhos é o: $maior_vizinhos\n";
+
+while(True) {
+  $entrada_linha = readline("Entre com o vetor a ser inserido na matriz com as colunas separadas por espaço: ");
+  $vetor = preg_split("/ /", $entrada_linha);
+  if (sizeof($vetor) != $qtd_nos) {
+    echo("O número de colunas deve ser igual a $qtd_nos! Tente novamente...\n");
+  }
+  else {
+    break;
+  }
+}
+
+grafo_push($matriz, $vetor);
+
+print_r($matriz);
+echo "\n";
 ?>
