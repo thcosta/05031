@@ -46,6 +46,7 @@ class Aluno {
   }
 
   public function listar_acs_tipo($tipo) {
+    $total_cursado = 0;
     $table = "
     <table style='border: 2px solid #000000'>
       <thead>
@@ -58,6 +59,7 @@ class Aluno {
     foreach($this->filtrar_ac_por_tipo($tipo) as $ac) {
       $nome = $ac->get_nome();
       $horas = $ac->get_horas();
+      $total_cursado += $horas;
       $table .= "
         <tr>
           <td>$nome</td>
@@ -65,6 +67,7 @@ class Aluno {
         </tr>";
     }
     $table .= "
+        <tr><td colspan='2'>Total $total_cursado h</tr>
       </tbody>
     </table>";
     echo $table;
